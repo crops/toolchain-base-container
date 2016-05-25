@@ -1,0 +1,9 @@
+*~
+*.o
+ceed/ceed
+codi/codi
+turff/turff
+outdir
+*.pyc
+*#
+.#*

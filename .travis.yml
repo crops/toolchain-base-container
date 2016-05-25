@@ -1,0 +1,56 @@
+language: python
+python:
+  - "2.7"
+
+sudo: required
+services:
+  - docker
+
+env:
+    global:
+        - DOCKER_VERSION=1.10.1-0~trusty
+        - TARGETS="aarch64 armv5e armv7a-neon mips64 core2-64 i586"
+        - YP_RELEASE=2.1
+        - ZEPHYR_RELEASE=0.7.5
+        - OSTRO_RELEASE=v1.0.0
+        - CROPS_RELEASE=latest
+        - secure: "GJCAjJ9RPWsZ+mez64OQegUnHNMksGpViNo7emA1hCX9EuEtAi962qSqg/D2zPPrCUDaHyTb5l80MbuGUdeKV2nYx3Ct82ktiFPDErX6pFaKzgCH3fbaw9hwanoIT2i0OwI5Z7eBbZyLXzAYMPEE6J1jqAfK+vp2iGs58LVbP7SjYmIDUqSKnXJrscOC1op7NJv8/gHES7a1pn/21B/XFzORcXzSfX8/dssmwuJ2daQlMciRwaRlyDbeScPFWTj6cHDq5FBijS/iutUh91r6NBMtbda/d2JePe0TKKouVl/84+/DEXbbVu82D8CIo6tsEix2b25y6gQxLtFVuhrdu0/MoidGhsdEUduU7Zl1Ehm0YoVBuPlsXbSR4qO0YkEwvi/mC+ZpUZZhK4Hf59ejT2M3bhxv5Uutfp/8GHVGKyxKQ21JxpusjrY6rf7hUTcGFq2ruBh2CY4sfeLoEe91VYimpdZgC1SCffFbnFyJi1a5jJaQwnld5fplMrjfUUEHdhy3vNxb+m/91w0zAxR8KaSnWAgydYEv03FEM5zjqhWDen0k/WN0xzM1vru4R96kJyRMa/gROUgZkOJEaMRmPBCltXOhTy9kqsRjd2QQiBVvGnvH4wTGGzUGYrdJ6hNq15sikvX9+iddBObFUmhgJGAt03TAxQzvg5fF3/WEnMY="   # DOCKER_EMAIL_bavery
+        - secure: "vkGfmQj1DGMuFNwJRKdKF22a0qxb+3F0PWjKUt8l0MFFnvsglsnMZYKtLQIfp+se0EWTCTumQ9zO71eJSQM/zFqhKTaeikB8GvNKwjZp+qK63WYsW/BW7jUBUO7/nGhYJEcoBOIyP0lsx4WxDRUZzzI/uNxrT3mO1oMvkTbsKIXf8lfEmFdap+3Nskhbwl5coB67dBd2OZpYnXWZWyjjdzVPrQjCNZRO74yqD8ezgtW0nEC/WfdX0AJFYV6+7BxTfUH1LL1g8B5nNiVZvctdMeeJ0o9xA7/2SK2nYk5qhp8TEZEAwvUUWa2zuEB1FvWMM9caG67HbR4yYam37Az29kfLgSWJYSrh7DfZB/f9kHCVVVekEKchRSg7gCDsSAEYd9f5wMI+Ra0hOfq6oFstLM2Exc2sI/Os7EEnFZv/tgttmI3sk4GsKkTDJbqaiA531X2QGxyZDM2V2WLU5OHOeE4OyAOQqx5eLkIBWKIwYQObMTGh/2q/4eYJkZpMj01TaOStVfRRVc5u3FVoPYbQTTV31Sbih4qmYvvT730k3ixV9CoVf4/f04/N3hrDD83iGpMpFhn68EO7+b4Kv7tQKL/KkJmWs/SkZBpARmcSJ/dWdMc7uG9r7mudV8mXu5YtIywqGudaNgq07bIDYv15cJ3yhdpFsETf01ef024J4eI="  # DOCKER_PASS_bavery
+        - secure: tHwT5tQ3HdejGc5Oc+HasJiyV60S2lwfvKXZrbAPlmbwYGMVEr2//LjquFLUYvVbwC4+tnXfIsjawd/RbCNMP0+KgDzJ83wppm8sb2/D6EZWg0hmK2VkBTQeJPMfaNs1cwOiZWPSBiHYvPL3mLDgJ2jp07WV+YsPfcAoQXItD5djckP67jjatd3ROkHIs84VNtall26QpXUe3wx4V/PAbAilHs0Q5dwt5EqpQIFm1jjZjBdG9yS9BfSz49oRypCCjT1P+K6Vh/XMSQT8wmOqNkn9NOMuU1Uj/o1gzzo6eCAdC6TsUP2ruxzDmmP/Dglq+PdH/QhSY4qrV339TOwUZjGvFUTbSO0qBKqSfBZpp0d9EzuM6o7loZGbH77zbyo7vPzv904C8xyQtvpdEODVCME2Ab/U+6X9TiBMPg6NiQVUTl4GUG93jk+pxstTAQVhV6hgZ0VWhy2vpbGZ/kTa3hFhiz5nqdzIKnjeHU36V8r47NjDEcUjf2thu9tXI8sZHDnYAY6kcsxCzwe9nlFFLLQtUFU/fbEyI4kcP9H1Pc40KrbV9pidxpRb8fXCafEbrkDFUjaD1G+YdPpSgh4T/2mP8O8Op4KI3edyjgI2WfVM+5TPmh5s8/MUJ6CG11eYLjc3lJINjzWIESTQOXKd+GhQZm9sI1lmTL5oDcTDqV0= # DOCKER_EMAIL_crops
+        - secure: MbVDsUvTvxlEZfpNZ9vMJKhFxK54e6AsX+2b1qYMGO8jn4VZvBpPeC4AeFekqw0AH5iWC0iPBC2CIPklM3cNOpI/Xuktat4S3/Be+KffJRpP6wnF29tlQejU1WUik9/qwKe6Ts2klHO13bjFRpem8qSKH7ViEFHOiyM9b1baQyePajArL0HxjIH630wqAnHkR6eYL8h74UQ171DjqdB4OdmySRTzcLwCK0P+C4oMdV8FlXR1SpDRcqUijDuL34QDTB60uwXDug3fEonxUJECxbXHbsIk7UDN7RMmx1VHK3FABrzh6uVk2O0XsZKpHVKzqS+JiClFHBcvRG9Fkgrt0wg4yGX4DMu6JoAVBa3c5vMCQEg0GsJIv8/iMzTDH9eA0KQp6wRBsGlgfd5/aJ4wTzhM3/DM/cOWbzikA4iL6i/TjlkQqx453eoixsC1EsL6t4mklniM52fAbHNByGhq5u9vo3wRgpIBn2pHCYVutqPYCbPQogQqUacjt7l1B7ZjAgtzwE9pCwwmY6pAvSavBvn/E3Rw8y8fcVH7o+PfGf34RKu3u4kSZ70qLbzaCxcRDIeokiUTWOgE49h3z7VJhfm9dsL3tOL9n6eBy7lVWSr5qUfhRjGtuIZEAqMvMxM/MvTJkpdJV5YEWyZXgjoewFFL9SeRGd14osmIeEYC174=   # DOCKER_PASS_crops
+
+
+
+compiler:
+  - gcc
+  - clang
+
+before_install:
+  # list docker-engine versions
+  - apt-cache madison docker-engine
+
+  # upgrade docker-engine to specific version
+  - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_VERSION}
+
+
+script:
+  - docker version
+  - echo "set Docker Repo"
+  - source ./scripts/setDockerhubRepo.sh
+  - echo "Building Base"
+  - chmod 777 ./scripts/build_containers.base
+  - ./scripts/build_containers.base
+  - python tests.py
+  - chmod 777 ./scripts/pushToDockerhub.sh
+  - ./scripts/pushToDockerhub.sh
+
+after_success:
+  - echo "Temp holder while debugging dockerpush on new repo"
+
+
+
+notifications:
+  email:
+    recipients:
+    on_success: change
+    on_failure: always

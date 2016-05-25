@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -e
+set -x
+set -o pipefail
+
+
+# This removes the old test containers, and builds a new deps container.
+#
+# Example:
+#
+# ./scripts/build_containers.base
+
+
+if [ "$DOCKERHUB_REPO" = "" ]; then
+    DOCKERHUB_REPO="crops"
+fi
+echo "TRAVIS_REPO_SLUG=$TRAVIS_REPO_SLUG"
+TOPDIR=`git rev-parse --show-toplevel`
+
+# remove the deps image as we will rebuild it
+Q=`docker images  -q ${DOCKERHUB_REPO}/toolchain-base`
+if [ "$Q"  != "" ]; then
+    echo "Removing toolchain-base image"
+    docker rmi -f $Q
+fi
+
+cd ${TOPDIR}/dockerfiles;
+
+Q=`docker images  -q toolchain-base`
+if [ "$Q"  == "" ]; then
+    echo "Build toolchain deps image"
+    docker build -t ${DOCKERHUB_REPO}/toolchain-base -f Dockerfile.toolchain-base  ..
+fi

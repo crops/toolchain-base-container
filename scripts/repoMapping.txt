@@ -1,0 +1,7 @@
+# this maps the travis slug user to your dockerhub slug user
+# if the usernames match, you don't need an entry
+# we need both dockerhub_repo and dockerhub_user to deal with organizations
+# travis   dockerhub_repo    dockerhub user
+bavery22 bavery bavery
+moto-timo mototimo mototimo
+crops  crops bavery

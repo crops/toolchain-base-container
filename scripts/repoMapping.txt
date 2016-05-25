@@ -1,0 +1,4 @@
+# this maps the travis slug user to your dockerhub slug user
+# if the usernames match, you don't need an entry
+# travis   dockerhub
+bavery22 bavery

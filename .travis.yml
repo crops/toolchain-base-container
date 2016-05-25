@@ -1,0 +1,56 @@
+language: python
+python:
+  - "2.7"
+
+
+sudo: required
+services:
+  - docker
+
+env:
+    global:
+        - DOCKER_VERSION=1.10.1-0~trusty
+        - TARGETS="aarch64 armv5e armv7a-neon mips64 core2-64 i586"
+        - YP_RELEASE=2.1
+        - ZEPHYR_RELEASE=0.7.5
+        - OSTRO_RELEASE=v1.0.0
+        - CROPS_RELEASE=latest
+        - secure: "GJCAjJ9RPWsZ+mez64OQegUnHNMksGpViNo7emA1hCX9EuEtAi962qSqg/D2zPPrCUDaHyTb5l80MbuGUdeKV2nYx3Ct82ktiFPDErX6pFaKzgCH3fbaw9hwanoIT2i0OwI5Z7eBbZyLXzAYMPEE6J1jqAfK+vp2iGs58LVbP7SjYmIDUqSKnXJrscOC1op7NJv8/gHES7a1pn/21B/XFzORcXzSfX8/dssmwuJ2daQlMciRwaRlyDbeScPFWTj6cHDq5FBijS/iutUh91r6NBMtbda/d2JePe0TKKouVl/84+/DEXbbVu82D8CIo6tsEix2b25y6gQxLtFVuhrdu0/MoidGhsdEUduU7Zl1Ehm0YoVBuPlsXbSR4qO0YkEwvi/mC+ZpUZZhK4Hf59ejT2M3bhxv5Uutfp/8GHVGKyxKQ21JxpusjrY6rf7hUTcGFq2ruBh2CY4sfeLoEe91VYimpdZgC1SCffFbnFyJi1a5jJaQwnld5fplMrjfUUEHdhy3vNxb+m/91w0zAxR8KaSnWAgydYEv03FEM5zjqhWDen0k/WN0xzM1vru4R96kJyRMa/gROUgZkOJEaMRmPBCltXOhTy9kqsRjd2QQiBVvGnvH4wTGGzUGYrdJ6hNq15sikvX9+iddBObFUmhgJGAt03TAxQzvg5fF3/WEnMY="   # DOCKER_EMAIL_bavery
+        - secure: "vkGfmQj1DGMuFNwJRKdKF22a0qxb+3F0PWjKUt8l0MFFnvsglsnMZYKtLQIfp+se0EWTCTumQ9zO71eJSQM/zFqhKTaeikB8GvNKwjZp+qK63WYsW/BW7jUBUO7/nGhYJEcoBOIyP0lsx4WxDRUZzzI/uNxrT3mO1oMvkTbsKIXf8lfEmFdap+3Nskhbwl5coB67dBd2OZpYnXWZWyjjdzVPrQjCNZRO74yqD8ezgtW0nEC/WfdX0AJFYV6+7BxTfUH1LL1g8B5nNiVZvctdMeeJ0o9xA7/2SK2nYk5qhp8TEZEAwvUUWa2zuEB1FvWMM9caG67HbR4yYam37Az29kfLgSWJYSrh7DfZB/f9kHCVVVekEKchRSg7gCDsSAEYd9f5wMI+Ra0hOfq6oFstLM2Exc2sI/Os7EEnFZv/tgttmI3sk4GsKkTDJbqaiA531X2QGxyZDM2V2WLU5OHOeE4OyAOQqx5eLkIBWKIwYQObMTGh/2q/4eYJkZpMj01TaOStVfRRVc5u3FVoPYbQTTV31Sbih4qmYvvT730k3ixV9CoVf4/f04/N3hrDD83iGpMpFhn68EO7+b4Kv7tQKL/KkJmWs/SkZBpARmcSJ/dWdMc7uG9r7mudV8mXu5YtIywqGudaNgq07bIDYv15cJ3yhdpFsETf01ef024J4eI="  # DOCKER_PASS_bavery
+
+
+
+
+compiler:
+  - gcc
+  - clang
+
+before_install:
+  # list docker-engine versions
+  - apt-cache madison docker-engine
+
+  # upgrade docker-engine to specific version
+  - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_VERSION}
+
+
+script:
+  - docker version
+  - echo "set Docker Repo"
+  - source ./scripts/setDockerhubRepo.sh
+  - echo "Building Base"
+  - chmod 777 ./scripts/build_containers.base
+  - ./scripts/build_containers.base
+  - find ./tests
+  - python tests.py
+  - chmod 777 ./scripts/pushToDockerhub.sh
+
+after_success:
+  - ./scripts/pushToDockerhub.sh
+
+
+
+notifications:
+  email:
+    recipients:
+    on_success: change
+    on_failure: always

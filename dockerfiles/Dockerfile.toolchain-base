@@ -1,0 +1,54 @@
+# This file provides build deps for all our images
+#
+# Usage:
+#
+# docker build -t crops/toolchain-base -f Dockerfile.toolchain-base .
+
+FROM debian:jessie
+MAINTAINER Todor Minchev <todor.minchev@linux.intel.com>
+
+# Install dependencies
+RUN apt-get update -qq && apt-get upgrade -y && apt-get install -y -qq \
+  gawk \
+  wget \
+  git-core \
+  libsqlite3-dev \
+  libjansson-dev	\
+  diffstat \
+  daemontools \
+  unzip \
+  sysstat \
+  texinfo \
+  gcc-multilib \
+  build-essential \
+  g++ \
+  libc6-dev-i386 \
+  g++-multilib	\
+  bzip2	\
+  chrpath \
+  socat \
+  autoconf \
+  automake \
+  libtool \
+  python \
+  libsdl1.2-dev  \
+  cpio \
+  sudo  \
+  rsync && \
+  apt-get upgrade -y -qq && \
+  apt-get clean && \
+  echo "dash dash/sh boolean false" | debconf-set-selections && \
+  DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
+
+#Install a version of curl with unix sockets support
+RUN cd /tmp && \
+    git clone https://github.com/curl/curl.git curl && \
+    cd curl && \
+    git checkout tags/curl-7_45_0 && \
+    ./buildconf && \
+    ./configure --prefix=/usr --enable-unix-sockets && \
+    make && \
+    make install
+
+
+CMD /bin/bash

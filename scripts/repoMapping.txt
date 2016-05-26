@@ -2,3 +2,4 @@
 # if the usernames match, you don't need an entry
 # travis   dockerhub
 bavery22 bavery
+moto-timo mototimo

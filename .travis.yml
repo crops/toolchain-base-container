@@ -43,9 +43,10 @@ script:
   - find ./tests
   - python tests.py
   - chmod 777 ./scripts/pushToDockerhub.sh
+  - ./scripts/pushToDockerhub.sh
 
 after_success:
-  - ./scripts/pushToDockerhub.sh
+  - echo "Temp holder while debugging dockerpush on new repo"
 
 
 

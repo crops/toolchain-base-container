@@ -8,7 +8,7 @@ while read line; do
 	echo "OVERRIDE, DOCKERHUB_REPO set to $DOCKERHUB_REPO"
 	DOCKERHUB_USER=`echo $line | grep -v "#" | grep $TRAVIS_USER| awk '{print $3}'`
 	echo "OVERRIDE, DOCKERHUB_USER set to $DOCKERHUB_USER"
-	exit 0
+	return 0
     fi
 done < scripts/repoMapping.txt
 

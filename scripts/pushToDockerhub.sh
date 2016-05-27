@@ -20,11 +20,11 @@ DOCKER_PASS=${!TMP_PASS}
 echo "DOCKER_EMAI=$DOCKER_EMAIL"
 if [ "$DOCKER_EMAIL" = "" ]; then
     echo "DOCKER_EMAIL empty"
-    exit 0
+    return 0
 fi
 if [ "$DOCKER_PASS" = "" ]; then
     echo "DOCKER_PASS empty"
-    exit 0
+    return 0
 fi
 
 docker login -e $DOCKER_EMAIL -u $DOCKERHUB_REPO -p $DOCKER_PASS

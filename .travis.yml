@@ -41,7 +41,6 @@ script:
   - echo "Building Base"
   - chmod 777 ./scripts/build_containers.base
   - ./scripts/build_containers.base
-  - find ./tests
   - python tests.py
   - chmod 777 ./scripts/pushToDockerhub.sh
   - ./scripts/pushToDockerhub.sh

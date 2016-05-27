@@ -14,7 +14,20 @@ echo "DOCKERHUB_REPO set to $DOCKERHUB_REPO"
 TMP_EMAIL="DOCKER_EMAIL_$DOCKERHUB_REPO"
 TMP_PASS="DOCKER_PASS_$DOCKERHUB_REPO"
 
-docker login -e ${!TMP_EMAIL} -u $DOCKERHUB_REPO -p ${!TMP_PASS}
+DOCKER_EMAIL=${!TMP_EMAIL}
+DOCKER_PASS=${!TMP_PASS}
+
+echo "DOCKER_EMAI=$DOCKER_EMAIL"
+if [ "$DOCKER_EMAIL" = "" ]; then
+    echo "DOCKER_EMAIL empty"
+    exit 0
+fi
+if [ "$DOCKER_PASS" = "" ]; then
+    echo "DOCKER_PASS empty"
+    exit 0
+fi
+
+docker login -e $DOCKER_EMAIL -u $DOCKERHUB_REPO -p $DOCKER_PASS
 
 docker images | grep ${DOCKERHUB_REPO}\/ | grep -v deps | grep -v \<none\> | awk '{print $1 ":" $2}'
 if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then

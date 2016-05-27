@@ -20,14 +20,12 @@ DOCKER_PASS=${!TMP_PASS}
 echo "DOCKER_EMAI=$DOCKER_EMAIL"
 if [ "$DOCKER_EMAIL" = "" ]; then
     echo "DOCKER_EMAIL empty"
-    return 0
 fi
 if [ "$DOCKER_PASS" = "" ]; then
     echo "DOCKER_PASS empty"
-    return 0
 fi
 
-docker login -e $DOCKER_EMAIL -u $DOCKERHUB_REPO -p $DOCKER_PASS
+docker login -e $DOCKER_EMAIL -u $DOCKERHUB_USER -p $DOCKER_PASS
 
 docker images | grep ${DOCKERHUB_REPO}\/ | grep -v deps | grep -v \<none\> | awk '{print $1 ":" $2}'
 if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then

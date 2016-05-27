@@ -8,15 +8,14 @@ while read line; do
 	echo "OVERRIDE, DOCKERHUB_REPO set to $DOCKERHUB_REPO"
 	DOCKERHUB_USER=`echo $line | grep -v "#" | grep $TRAVIS_USER| awk '{print $3}'`
 	echo "OVERRIDE, DOCKERHUB_USER set to $DOCKERHUB_USER"
-	return 0
     fi
 done < scripts/repoMapping.txt
 
-
-DOCKERHUB_REPO=$TRAVIS_USER
-DOCKERHUB_USER=$TRAVIS_USER
-echo "DOCKERHUB_REPO defaulting to $DOCKERHUB_REPO"
-echo "DOCKERHUB_USER defaulting to $DOCKERHUB_USER"
-
+if [ "$DOCKERHUB_USER" = "" ]; then
+    DOCKERHUB_REPO=$TRAVIS_USER
+    DOCKERHUB_USER=$TRAVIS_USER
+    echo "DOCKERHUB_REPO defaulting to $DOCKERHUB_REPO"
+    echo "DOCKERHUB_USER defaulting to $DOCKERHUB_USER"
+fi
 export DOCKERHUB_REPO
 export DOCKERHUB_USER

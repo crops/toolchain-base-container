@@ -10,7 +10,7 @@ while read line; do
 	echo "OVERRIDE, DOCKERHUB_USER set to $DOCKERHUB_USER"
 	exit 0
     fi
-done < repoMapping.txt
+done < scripts/repoMapping.txt
 
 
 DOCKERHUB_REPO=$TRAVIS_USER

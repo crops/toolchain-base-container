@@ -28,12 +28,12 @@ fi
 docker login -e $DOCKER_EMAIL -u $DOCKERHUB_USER -p $DOCKER_PASS
 
 docker images | grep ${DOCKERHUB_REPO}\/ | grep -v deps | grep -v \<none\> | awk '{print $1 ":" $2}'
-if [ "$TRAVIS_PULL_REQUEST" = "false" && "$TRAVIS_BRANCH" = "master" ] ; then
+if [ "$TRAVIS_PULL_REQUEST" = "false" -a "$TRAVIS_BRANCH" = "master" ]; then
     for i in `docker images | grep ${DOCKERHUB_REPO}\/ | grep -v deps | grep -v \<none\> | awk '{print $1 ":" $2}'`; do
 	echo Pushing $i
 	docker push $i
     done
 else
-    print "No Pushy, TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST, BRANCH=$TRAVIS_BRANCH"
+   echo "No Pushy, TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST, BRANCH=$TRAVIS_BRANCH"
 
 fi

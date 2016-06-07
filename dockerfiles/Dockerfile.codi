@@ -1,0 +1,22 @@
+# This file provides build deps for all our images
+#
+# Usage:
+#
+# see scripts/build_containers.xxx
+
+
+FROM crops/toolchain-base
+MAINTAINER Todor Minchev <todor.minchev@linux.intel.com>
+
+# Build and install CODI
+RUN mkdir -p /usr/local/crops-py
+COPY crops-py/codi /usr/local/crops-py/codi/
+COPY crops-py/launchers/codi-launcher.py /usr/local/crops-py/launchers/
+COPY crops-py/utils /usr/local/crops-py/utils
+COPY crops-py/README.rst /usr/local/crops-py/
+COPY crops-py/setup.py /usr/local/crops-py/
+
+RUN cd /usr/local/crops-py/ && pip3 install -e .
+
+# start codi
+ENTRYPOINT ["python3 -m launchers.codi-launcher"]

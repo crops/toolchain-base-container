@@ -26,8 +26,15 @@ fi
 
 cd ${TOPDIR}/dockerfiles;
 
-Q=`docker images  -q toolchain-base`
+Q=`docker images  -q ${DOCKERHUB_REPO}/toolchain-base`
 if [ "$Q"  == "" ]; then
-    echo "Build toolchain deps image"
+    echo "Build toolchain base image"
     docker build -t ${DOCKERHUB_REPO}/toolchain-base -f Dockerfile.toolchain-base  ..
+fi
+
+# CODI needs crops/toolchain-base
+Q=`docker images  -q crops/toolchain-base`
+if [ "$Q"  == "" ]; then
+    echo "Build toolchain base image"
+    docker build -t crops/toolchain-base -f Dockerfile.toolchain-base  ..
 fi

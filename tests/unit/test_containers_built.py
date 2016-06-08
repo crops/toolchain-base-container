@@ -13,21 +13,18 @@ from utils.testutils import *
 
 class TestContainersBuilt(unittest.TestCase):
     def setUp(self):
-        self.sdkTargets = os.environ['TARGETS'].split()
-        self.sdkYPRelease = os.environ['YP_RELEASE']
-        self.zephyrRelease = os.environ['ZEPHYR_RELEASE']
-        self.ostroRelease =  os.environ['OSTRO_RELEASE']
         self.sdkCropsRelease = os.environ['CROPS_RELEASE']
-        self.travisSlug = os.environ['TRAVIS_REPO_SLUG']
-        self.dockerhubRepo = os.environ['DOCKERHUB_REPO']
-        #print("travisSlug=%s"%(self.travisSlug))
-        #print("dockerhubRepo=%s"%(self.dockerhubRepo))
-        self.cList=[]
-        self.baseD={}
-        self.baseD['x86-64']={}
-        self.baseD['x86-64']['name']="%s/toolchain-base:%s"%(self.dockerhubRepo,"latest")
-        self.baseD['x86-64']['found']=False
-        self.cList.append(self.baseD)
+        self.containers=[]
+
+        c={}
+        c['name']="toolchain-base:%s"%(self.sdkCropsRelease)
+        c['found']=False
+        self.containers.append(c)
+        c={}
+        c['name']="codi:%s"%(self.sdkCropsRelease)
+        c['found']=False
+        self.containers.append(c)
+
     def tearDown(self):
         pass
 
@@ -36,12 +33,11 @@ class TestContainersBuilt(unittest.TestCase):
         cmd = """docker  images """
         p=subprocess.Popen(cmd.split(), stderr=sys.stderr, stdout=subprocess.PIPE,
                         shell=False)
-        for c in self.cList:
-            check=c
-            allBuilt=checkPresent(check,p.stdout)
-            if not allBuilt:
-                # error information is more useful than true is not false
-                printDockerImagesSad(inspect.stack()[0][3],check)
+
+        allBuilt=checkPresentA(self.containers,p.stdout)
+        if not allBuilt:
+            # error information is more useful than true is not false
+            printDockerImagesSadA(inspect.stack()[0][3],self.containers)
 
         self.assertTrue(allBuilt)
 

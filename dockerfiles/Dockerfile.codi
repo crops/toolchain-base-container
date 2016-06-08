@@ -15,8 +15,24 @@ COPY crops-py/launchers/codi-launcher.py /usr/local/crops-py/launchers/
 COPY crops-py/utils /usr/local/crops-py/utils
 COPY crops-py/README.rst /usr/local/crops-py/
 COPY crops-py/setup.py /usr/local/crops-py/
+COPY helpers/startCodi.sh /usr/local/bin
 
-RUN cd /usr/local/crops-py/ && pip3 install -e .
+RUN cd /usr/local/crops-py/ && \
+  pip3 install -e . && \
+  pip3 install --upgrade pip && \
+  pip3 install flask docker-py rethinkdb && \
+  source /etc/lsb-release && \
+  echo "deb http://download.rethinkdb.com/apt $DISTRIB_CODENAME main" \
+  | tee /etc/apt/sources.list.d/rethinkdb.list && \
+  wget -qO- https://download.rethinkdb.com/apt/pubkey.gpg | \
+  apt-key add - && apt-get update -qq && apt-get install -y -qq rethinkdb
 
-# start codi
-ENTRYPOINT ["python3 -m launchers.codi-launcher"]
+
+# configure the database
+RUN cp /etc/rethinkdb/default.conf.sample \
+  /etc/rethinkdb/instances.d/default.conf && \
+  echo -e "bind=all\nhttp-port=8181" >> \
+  /etc/rethinkdb/instances.d/default.conf
+
+# start tthinkdb then start codi
+ENTRYPOINT ["startCodi.sh"]

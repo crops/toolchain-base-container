@@ -1,0 +1,3 @@
+[submodule "crops-py"]
+	path = crops-py
+	url = https://github.com/crops/crops-py.git

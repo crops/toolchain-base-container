@@ -35,11 +35,16 @@ before_install:
 
 script:
   - docker version
+  - git submodule update --init --recursive
   - echo "set Docker Repo"
   - source ./scripts/setDockerhubRepo.sh
   - echo "Building Base"
   - chmod 777 ./scripts/build_containers.base
   - ./scripts/build_containers.base
+  - docker images
+  - echo "Building CODI"
+  - chmod 777 ./scripts/build_containers.codi
+  - ./scripts/build_containers.codi
   - python tests.py
 
 after_success:

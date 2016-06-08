@@ -32,6 +32,8 @@ RUN apt-get update -qq && apt-get upgrade -y && apt-get install -y -qq \
   automake \
   libtool \
   python \
+  python3 \
+  python3-pip \
   libsdl1.2-dev  \
   cpio \
   sudo  \
@@ -40,16 +42,6 @@ RUN apt-get update -qq && apt-get upgrade -y && apt-get install -y -qq \
   apt-get clean && \
   echo "dash dash/sh boolean false" | debconf-set-selections && \
   DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
-
-#Install a version of curl with unix sockets support
-RUN cd /tmp && \
-    git clone https://github.com/curl/curl.git curl && \
-    cd curl && \
-    git checkout tags/curl-7_45_0 && \
-    ./buildconf && \
-    ./configure --prefix=/usr --enable-unix-sockets && \
-    make && \
-    make install
 
 
 CMD /bin/bash

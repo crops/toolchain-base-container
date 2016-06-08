@@ -3,6 +3,7 @@
 echo "TRAVIS_REPO_SLUG=$TRAVIS_REPO_SLUG"
 echo "TRAVIS_BRANCH=$TRAVIS_BRANCH"
 TRAVIS_USER=`echo $TRAVIS_REPO_SLUG | cut -d '/' -f1`
+MY_DIR=$(dirname $0)
 while read line; do
     echo $line
     if [ "`echo $line | grep -v "#" | awk '{print $1}' |grep $TRAVIS_USER`" != "" ]; then
@@ -11,7 +12,7 @@ while read line; do
 	DOCKERHUB_USER=`echo $line | grep -v "#" | grep $TRAVIS_USER| awk '{print $3}'`
 	echo "OVERRIDE, DOCKERHUB_USER set to $DOCKERHUB_USER"
     fi
-done < scripts/repoMapping.txt
+done < ${MY_DIR}/repoMapping.txt
 
 if [ "$DOCKERHUB_USER" = "" ]; then
     DOCKERHUB_REPO=$TRAVIS_USER

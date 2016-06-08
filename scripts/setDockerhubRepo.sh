@@ -3,7 +3,7 @@
 echo "TRAVIS_REPO_SLUG=$TRAVIS_REPO_SLUG"
 echo "TRAVIS_BRANCH=$TRAVIS_BRANCH"
 TRAVIS_USER=`echo $TRAVIS_REPO_SLUG | cut -d '/' -f1`
-MY_DIR=$(dirname $0)
+MY_DIR=$(dirname $BASH_SOURCE)
 while read line; do
     echo $line
     if [ "`echo $line | grep -v "#" | awk '{print $1}' |grep $TRAVIS_USER`" != "" ]; then

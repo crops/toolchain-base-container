@@ -23,19 +23,19 @@ def checkString(s,myStream):
 def printStringSad(who,s):
     print("%s did not appear in check %s\n"%(s,who))
 
-def checkPresent(myDict,myStream):
+def checkPresentA(myA,myStream):
     for l in myStream:
-        for k,v in  myDict.iteritems():
-            repo=v['name'].split(':')[0]
-            tag=v['name'].split(':')[1]
-            if repo in l and tag in l :
-                v['found']=True
+        for d in  myA:
+            name=d['name'].split(':')[0]
+            tag=d['name'].split(':')[1]
+            if name in l and tag in l :
+                d['found']=True
     present=True
-    for v in  myDict.itervalues():
-        present &= v['found']
+    for d in  myA:
+        present &= d['found']
     return present
 
-def printDockerImagesSad(hdr,myDict):
+def printDockerImagesSadA(hdr,myA):
     cmd="docker images"
     p=subprocess.Popen(cmd.split(), stderr=sys.stderr, stdout=subprocess.PIPE,
                        shell=False)
@@ -43,5 +43,6 @@ def printDockerImagesSad(hdr,myDict):
     for l in p.stdout:
         print ("%s",l)
     print ("Looking for:")
-    for k,v in myDict.iteritems():
-        print("%s found = %s"%(v['name'],v['found']))
+    for d in myA:
+        if not d['found']:
+            print("%s found = %s"%(d['name'],d['found']))

@@ -31,7 +31,7 @@ RUN cd /usr/local/crops-py/ && \
 # configure the database
 RUN cp /etc/rethinkdb/default.conf.sample \
   /etc/rethinkdb/instances.d/default.conf && \
-  echo -e "bind=all\nhttp-port=8181" >> \
+  echo -e "bind=127.0.0.1\nhttp-port=8181" >> \
   /etc/rethinkdb/instances.d/default.conf
 
 # start tthinkdb then start codi

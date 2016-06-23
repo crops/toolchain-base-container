@@ -38,6 +38,8 @@ before_install:
 script:
   - docker version
   - git submodule update --init --recursive
+  - git submodule foreach git pull origin master
+  - git submodule foreach git status
   - echo "set Docker Repo"
   - source ./scripts/setDockerhubRepo.sh
   - echo "Building Base"

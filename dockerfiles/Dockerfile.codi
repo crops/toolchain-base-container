@@ -20,7 +20,7 @@ COPY helpers/startCodi.sh /usr/local/bin
 RUN cd /usr/local/crops-py/ && \
   pip3 install -e . && \
   pip3 install --upgrade pip && \
-  pip3 install flask docker-py rethinkdb && \
+  pip3 install flask docker-py rethinkdb gunicorn && \
   source /etc/lsb-release && \
   echo "deb http://download.rethinkdb.com/apt $DISTRIB_CODENAME main" \
   | tee /etc/apt/sources.list.d/rethinkdb.list && \

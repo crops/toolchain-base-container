@@ -37,13 +37,11 @@ before_install:
 
 script:
   - docker version
-  - git submodule update --init --recursive
-  - git submodule foreach git pull origin master
-  - git submodule foreach git status
+  - chmod 777 ./scripts/build_containers.base ./scripts/updateSubmodules.sh ./scripts/setDockerhubRepo.sh
+  - ./scripts/updateSubmodules.sh
   - echo "set Docker Repo"
   - source ./scripts/setDockerhubRepo.sh
   - echo "Building Base"
-  - chmod 777 ./scripts/build_containers.base
   - ./scripts/build_containers.base
   - docker images
   - echo "Building CODI"
